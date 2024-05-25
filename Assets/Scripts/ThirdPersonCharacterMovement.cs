@@ -15,13 +15,23 @@ public class ThirdPersonCharacterMovement : MonoBehaviour
     [SerializeField] private float turnSmoothTime;
     private float turnSmoothvelocity;
 
+    // Jump
+    private bool isGrounded;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private LayerMask layerMask;
+
     private void Update()
     {
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.0f + 0.2f, layerMask);     // 1.0f: Player height dependent on Scale.      0.2f: buffer/leeway
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
         direction = new Vector3(horizontal, 0f, vertical).normalized;
 
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * jumpForce);
+        }
 
     }
 
