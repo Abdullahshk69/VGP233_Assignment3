@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonCharacterMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviour
 {
     
     [SerializeField] private Rigidbody rb;
@@ -10,7 +10,7 @@ public class ThirdPersonCharacterMovement : MonoBehaviour
 
     // Movement and rotation
     float vertical, horizontal;
-    Vector3 direction;
+    Vector3 direction;  // Look Direction
     [SerializeField] private float moveSpeed;
     [SerializeField] private float turnSmoothTime;
     private float turnSmoothvelocity;
@@ -19,6 +19,11 @@ public class ThirdPersonCharacterMovement : MonoBehaviour
     private bool isGrounded;
     [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask layerMask;
+
+    private void Start()
+    {
+        Cursor.visible = false;
+    }
 
     private void Update()
     {
@@ -48,5 +53,10 @@ public class ThirdPersonCharacterMovement : MonoBehaviour
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             rb.AddForce(moveDirection.normalized * moveSpeed);
         }
+    }
+
+    public void ApplyForce(Vector3 force)
+    {
+        rb.AddForce(force);
     }
 }
